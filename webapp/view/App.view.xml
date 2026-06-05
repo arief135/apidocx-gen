@@ -1,0 +1,55 @@
+<mvc:View
+	controllerName="oneflux.apiref.controller.App"
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns="sap.m"
+	xmlns:tnt="sap.tnt"
+	xmlns:core="sap.ui.core"
+	displayBlock="true"
+	height="100%">
+
+	<tnt:ToolPage id="toolPage">
+		<tnt:header>
+			<tnt:ToolHeader>
+				<Title text="API Reference Builder" level="H2" class="afxBrand" />
+				<ToolbarSpacer />
+				<Text text="{/productName}" class="afxBrandSub" />
+			</tnt:ToolHeader>
+		</tnt:header>
+
+		<tnt:sideContent>
+			<tnt:SideNavigation id="sideNav" itemSelect=".onNavSelect">
+				<tnt:NavigationList id="navList" />
+			</tnt:SideNavigation>
+		</tnt:sideContent>
+
+		<tnt:mainContents>
+			<Page id="mainPage" showHeader="true" backgroundDesign="List">
+				<customHeader>
+					<OverflowToolbar>
+						<Title text="Document Preview" level="H3" />
+						<ToolbarSpacer />
+						<Switch
+							state="{ui>/editMode}"
+							customTextOn="Edit"
+							customTextOff="View"
+							change=".onToggleEdit"
+							tooltip="Toggle editing" />
+						<Button text="Add Endpoint" icon="sap-icon://add" visible="{ui>/editMode}" press=".onAddEndpoint" />
+						<Button text="Edit Selected" icon="sap-icon://edit" visible="{ui>/editMode}" press=".onEditSelected" />
+						<Button text="Document Info" icon="sap-icon://settings" visible="{ui>/editMode}" press=".onEditDocInfo" />
+						<ToolbarSeparator />
+						<Button text="Export DOCX" icon="sap-icon://doc-attachment" type="Emphasized" press=".onExportDocx" />
+						<Button text="Export JSON" icon="sap-icon://download" press=".onExportJson" />
+						<Button text="Import JSON" icon="sap-icon://upload" press=".onImportJson" />
+						<Button text="Print" icon="sap-icon://print" press=".onPrint" />
+						<Button text="Reset" icon="sap-icon://reset" press=".onReset" />
+					</OverflowToolbar>
+				</customHeader>
+
+				<ScrollContainer id="scroll" height="100%" width="100%" vertical="true" horizontal="false">
+					<core:HTML id="preview" />
+				</ScrollContainer>
+			</Page>
+		</tnt:mainContents>
+	</tnt:ToolPage>
+</mvc:View>

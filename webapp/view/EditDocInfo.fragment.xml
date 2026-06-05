@@ -1,0 +1,46 @@
+<core:FragmentDefinition
+	xmlns="sap.m"
+	xmlns:core="sap.ui.core"
+	xmlns:f="sap.ui.layout.form">
+
+	<Dialog id="editDocInfoDialog" title="Document Information" contentWidth="560px" resizable="true" draggable="true">
+		<content>
+			<f:SimpleForm editable="true" layout="ResponsiveGridLayout" labelSpanXL="4" labelSpanL="4" labelSpanM="4" columnsXL="1" columnsL="1">
+				<f:content>
+					<Label text="Product Name" />
+					<Input value="{/productName}" />
+
+					<Label text="Subtitle" />
+					<Input value="{/subtitle}" />
+
+					<Label text="Environment" />
+					<Input value="{/environment}" />
+
+					<Label text="Change Request" />
+					<Input value="{/changeRequest}" />
+
+					<Label text="Version" />
+					<Input value="{/version}" />
+
+					<Label text="Base URL" />
+					<Input value="{/baseUrl}" class="afxMono" />
+
+					<Label text="Overview" />
+					<TextArea value="{/overview}" rows="5" growing="true" width="100%" />
+				</f:content>
+			</f:SimpleForm>
+
+			<Panel class="afxParamPanel">
+				<headerToolbar>
+					<OverflowToolbar>
+						<Title text="Conventions (one per line)" level="H4" />
+					</OverflowToolbar>
+				</headerToolbar>
+				<TextArea id="conventionsArea" rows="6" width="100%" growing="true" />
+			</Panel>
+		</content>
+		<endButton>
+			<Button text="Done" type="Emphasized" press=".onCloseDocInfoDialog" />
+		</endButton>
+	</Dialog>
+</core:FragmentDefinition>

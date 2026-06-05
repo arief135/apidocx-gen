@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>API Reference Builder</title>
+
+    <!-- docx (UMD) provides a global `docx` used by the DOCX exporter -->
+    <script src="https://unpkg.com/docx@8.5.0/build/index.umd.js"></script>
+
+    <!-- OpenUI5 runtime from the official CDN (pinned).
+         Bump this version together with @openui5/types in package.json. -->
+    <script
+      id="sap-ui-bootstrap"
+      src="https://sdk.openui5.org/1.120.0/resources/sap-ui-core.js"
+      data-sap-ui-theme="sap_horizon"
+      data-sap-ui-libs="sap.m,sap.ui.core,sap.tnt,sap.ui.layout"
+      data-sap-ui-compat-version="edge"
+      data-sap-ui-async="true"
+      data-sap-ui-resource-roots='{ "oneflux.apiref": "./" }'
+      data-sap-ui-on-init="module:oneflux/apiref/index"
+    ></script>
+  </head>
+  <body class="sapUiBody" id="content"></body>
+</html>

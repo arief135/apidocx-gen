@@ -1,0 +1,267 @@
+:root {
+	--afx-navy: #1f3864;
+	--afx-blue: #2e75b6;
+	--afx-grey: #595959;
+	--afx-border: #cccccc;
+	--afx-code-bg: #f4f6f8;
+	--afx-code-fg: #24292e;
+	--afx-green: #2e7d32;
+	--afx-req: #c0392b;
+	--afx-zebra: #f7f9fb;
+	--afx-mono: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+}
+
+/* ----- app chrome ----- */
+.afxBrand {
+	color: #ffffff;
+}
+.afxBrandSub {
+	color: #d6e2f0;
+	font-size: 0.8125rem;
+}
+#container,
+html,
+body {
+	height: 100%;
+}
+
+/* ScrollContainer gets a soft page backdrop */
+#__xmlview0--scroll,
+.sapMScrollCont {
+	background: #eef1f4;
+}
+
+/* ----- the "paper" ----- */
+.afx-doc {
+	max-width: 860px;
+	margin: 24px auto 64px auto;
+	background: #ffffff;
+	border: 1px solid #e2e6ea;
+	box-shadow: 0 2px 14px rgba(31, 56, 100, 0.08);
+	padding: 56px 64px 72px 64px;
+	color: var(--afx-code-fg);
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 14px;
+	line-height: 1.55;
+}
+
+/* Title block */
+.afx-title {
+	text-align: center;
+	padding: 32px 0 48px 0;
+	border-bottom: 1px solid #eef1f4;
+	margin-bottom: 12px;
+}
+.afx-product {
+	color: var(--afx-navy);
+	font-size: 34px;
+	font-weight: 700;
+	letter-spacing: 0.2px;
+}
+.afx-subtitle {
+	color: var(--afx-blue);
+	font-size: 24px;
+	font-weight: 700;
+	margin-top: 4px;
+}
+.afx-environment {
+	color: var(--afx-grey);
+	font-size: 15px;
+	margin-top: 14px;
+}
+.afx-meta {
+	color: var(--afx-grey);
+	font-size: 13px;
+	margin-top: 28px;
+}
+
+/* Headings */
+.afx-h1 {
+	color: var(--afx-navy);
+	font-size: 22px;
+	font-weight: 700;
+	border-bottom: 2px solid var(--afx-blue);
+	padding-bottom: 6px;
+	margin: 34px 0 14px 0;
+}
+.afx-h2 {
+	color: var(--afx-blue);
+	font-size: 17px;
+	font-weight: 700;
+	margin: 22px 0 10px 0;
+}
+.afx-desc {
+	margin: 0 0 12px 0;
+}
+.afx-pending {
+	color: var(--afx-grey);
+	font-style: italic;
+	margin: 8px 0 0 0;
+}
+
+/* small section labels (ENDPOINT / REQUEST BODY ...) */
+.afx-label {
+	color: var(--afx-grey);
+	font-size: 11px;
+	font-weight: 700;
+	letter-spacing: 0.4px;
+	margin: 16px 0 6px 0;
+}
+
+/* endpoint bar (METHOD + URL) */
+.afx-endpoint-bar {
+	display: flex;
+	align-items: stretch;
+	border: 1px solid var(--afx-border);
+	border-radius: 3px;
+	overflow: hidden;
+}
+.afx-method {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	min-width: 64px;
+	padding: 8px 12px;
+	color: #ffffff;
+	font-weight: 700;
+	font-size: 12px;
+	background: var(--afx-green);
+}
+.afx-method-get { background: #1565c0; }
+.afx-method-post { background: var(--afx-green); }
+.afx-method-put { background: #e08600; }
+.afx-method-patch { background: #6a1b9a; }
+.afx-method-delete { background: #c62828; }
+.afx-url {
+	display: flex;
+	align-items: center;
+	padding: 8px 14px;
+	background: var(--afx-code-bg);
+	color: var(--afx-code-fg);
+	font-family: var(--afx-mono);
+	font-size: 13px;
+	flex: 1;
+	word-break: break-all;
+}
+.afx-method-sm {
+	min-width: 0;
+	padding: 1px 8px;
+	border-radius: 3px;
+	font-size: 11px;
+}
+
+/* code blocks */
+.afx-code {
+	background: var(--afx-code-bg);
+	border: 1px solid var(--afx-border);
+	border-radius: 3px;
+	padding: 12px 16px;
+	font-family: var(--afx-mono);
+	font-size: 12.5px;
+	line-height: 1.5;
+	color: var(--afx-code-fg);
+	white-space: pre;
+	overflow-x: auto;
+	margin: 0 0 4px 0;
+}
+
+/* status pill */
+.afx-status-line {
+	margin: 4px 0 8px 0;
+}
+.afx-status {
+	background: var(--afx-green);
+	color: #ffffff;
+	font-weight: 700;
+	font-size: 12px;
+	padding: 2px 8px;
+	border-radius: 3px;
+}
+.afx-resnote {
+	color: var(--afx-grey);
+	font-style: italic;
+	font-size: 12px;
+	margin-left: 10px;
+}
+
+/* tables */
+.afx-params,
+.afx-summary {
+	width: 100%;
+	border-collapse: collapse;
+	margin: 4px 0 8px 0;
+	font-size: 13px;
+}
+.afx-params th,
+.afx-summary th {
+	background: var(--afx-navy);
+	color: #ffffff;
+	text-align: left;
+	font-weight: 700;
+	padding: 7px 10px;
+	border: 1px solid var(--afx-navy);
+	font-size: 12.5px;
+}
+.afx-params td,
+.afx-summary td {
+	border: 1px solid var(--afx-border);
+	padding: 6px 10px;
+	vertical-align: top;
+}
+.afx-params tbody tr:nth-child(even),
+.afx-summary tbody tr:nth-child(even) {
+	background: var(--afx-zebra);
+}
+.afx-code-cell {
+	font-family: var(--afx-mono);
+	font-size: 12px;
+	color: #1b4f72;
+	font-weight: 600;
+}
+.afx-required {
+	color: var(--afx-req);
+	font-weight: 700;
+}
+
+/* bullet list */
+.afx-bullets {
+	margin: 4px 0 12px 0;
+	padding-left: 22px;
+}
+.afx-bullets li {
+	margin: 3px 0;
+}
+
+/* monospace text areas in dialogs */
+.afxMono textarea,
+.afxMono .sapMInputBaseInner {
+	font-family: var(--afx-mono) !important;
+	font-size: 12.5px !important;
+}
+.afxParamPanel {
+	margin-top: 8px;
+}
+
+/* ----- print ----- */
+@media print {
+	.sapTntToolHeader,
+	.sapTntSideNavigation,
+	.sapMPageHeader,
+	.sapMITB,
+	.sapMBarChild {
+		display: none !important;
+	}
+	.afx-doc {
+		box-shadow: none;
+		border: none;
+		margin: 0;
+		max-width: none;
+		padding: 0;
+	}
+	.afx-endpoint {
+		page-break-inside: avoid;
+	}
+	.afx-h1 {
+		page-break-after: avoid;
+	}
+}

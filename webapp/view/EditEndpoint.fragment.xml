@@ -1,0 +1,83 @@
+<core:FragmentDefinition
+	xmlns="sap.m"
+	xmlns:core="sap.ui.core"
+	xmlns:f="sap.ui.layout.form">
+
+	<Dialog id="editEndpointDialog" title="Edit Endpoint" contentWidth="680px" contentHeight="78%" resizable="true" draggable="true">
+		<content>
+			<f:SimpleForm editable="true" layout="ResponsiveGridLayout" labelSpanXL="3" labelSpanL="3" labelSpanM="3" columnsXL="1" columnsL="1">
+				<f:content>
+					<Label text="Title" required="true" />
+					<Input value="{title}" />
+
+					<Label text="Method" />
+					<Select selectedKey="{method}">
+						<core:Item key="GET" text="GET" />
+						<core:Item key="POST" text="POST" />
+						<core:Item key="PUT" text="PUT" />
+						<core:Item key="PATCH" text="PATCH" />
+						<core:Item key="DELETE" text="DELETE" />
+					</Select>
+
+					<Label text="Path" />
+					<Input value="{path}" placeholder="/MyEndpoint" />
+
+					<Label text="Description" />
+					<TextArea value="{description}" rows="3" growing="true" width="100%" />
+
+					<Label text="Request Body" />
+					<TextArea value="{requestBody}" rows="8" width="100%" class="afxMono" wrapping="Off" />
+
+					<Label text="Response Status" />
+					<Input value="{responseStatus}" placeholder="200 OK" />
+
+					<Label text="Response Note" />
+					<Input value="{responseNote}" placeholder="132 ms · 364 B" />
+
+					<Label text="Response Body" />
+					<TextArea value="{responseBody}" rows="8" width="100%" class="afxMono" wrapping="Off" />
+
+					<Label text="Placeholder section" />
+					<CheckBox selected="{placeholder}" text="Render as 'documentation pending' (no endpoint shown)" />
+				</f:content>
+			</f:SimpleForm>
+
+			<Panel headerText="Request Parameters" expandable="false" class="afxParamPanel">
+				<headerToolbar>
+					<OverflowToolbar>
+						<Title text="Request Parameters" level="H4" />
+						<ToolbarSpacer />
+						<Button text="Add Parameter" icon="sap-icon://add" press=".onAddParam" />
+					</OverflowToolbar>
+				</headerToolbar>
+				<Table items="{params}" alternateRowColors="true">
+					<columns>
+						<Column width="11rem"><Text text="Field" /></Column>
+						<Column width="7rem"><Text text="Type" /></Column>
+						<Column width="6rem" hAlign="Center"><Text text="Required" /></Column>
+						<Column><Text text="Description" /></Column>
+						<Column width="3rem" hAlign="End"><Text text="" /></Column>
+					</columns>
+					<items>
+						<ColumnListItem>
+							<cells>
+								<Input value="{field}" class="afxMono" />
+								<Input value="{type}" />
+								<CheckBox selected="{required}" />
+								<Input value="{description}" />
+								<Button icon="sap-icon://delete" type="Transparent" tooltip="Remove parameter" press=".onDeleteParam" />
+							</cells>
+						</ColumnListItem>
+					</items>
+				</Table>
+			</Panel>
+		</content>
+
+		<beginButton>
+			<Button text="Delete Endpoint" type="Reject" icon="sap-icon://delete" press=".onDeleteEndpoint" />
+		</beginButton>
+		<endButton>
+			<Button text="Done" type="Emphasized" press=".onCloseEndpointDialog" />
+		</endButton>
+	</Dialog>
+</core:FragmentDefinition>
