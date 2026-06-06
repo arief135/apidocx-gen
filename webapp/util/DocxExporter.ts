@@ -143,7 +143,7 @@ export async function buildDocxBlob(ref: ApiReference): Promise<Blob> {
 		});
 	};
 
-	const statusLine = (code: string, note: string) =>
+	const statusLine = (code: string) =>
 		new Paragraph({
 			spacing: { before: 60, after: 80 },
 			children: [
@@ -155,7 +155,6 @@ export async function buildDocxBlob(ref: ApiReference): Promise<Blob> {
 					size: 19,
 					shading: { fill: POSTGREEN, type: ShadingType.CLEAR }
 				}),
-				new TextRun({ text: "   " + note, italics: true, color: GREY, font: "Arial", size: 18 })
 			]
 		});
 
@@ -286,7 +285,7 @@ export async function buildDocxBlob(ref: ApiReference): Promise<Blob> {
 		children.push(codeBlock(ep.requestBody));
 		children.push(label("RESPONSE"));
 		if (ep.responseStatus) {
-			children.push(statusLine(ep.responseStatus, ep.responseNote));
+			children.push(statusLine(ep.responseStatus));
 		}
 		children.push(codeBlock(ep.responseBody));
 		if (index < realEndpoints.length - 1 || placeholders.length) {

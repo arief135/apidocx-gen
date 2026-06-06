@@ -67,9 +67,8 @@ function endpointSection(ep: ApiEndpoint, baseUrl: string): string {
 	parts.push(`<pre class="afx-code">${esc(ep.requestBody)}</pre>`);
 
 	parts.push(`<div class="afx-label">RESPONSE</div>`);
-	const note = ep.responseNote ? `<span class="afx-resnote">${esc(ep.responseNote)}</span>` : "";
 	if (ep.responseStatus) {
-		parts.push(`<div class="afx-status-line"><span class="afx-status">${esc(ep.responseStatus)}</span>${note}</div>`);
+		parts.push(`<div class="afx-status-line"><span class="afx-status">${esc(ep.responseStatus)}</span></div>`);
 	}
 	parts.push(`<pre class="afx-code">${esc(ep.responseBody)}</pre>`);
 

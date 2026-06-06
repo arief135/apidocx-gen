@@ -3,7 +3,7 @@ import JSONModel from "sap/ui/model/json/JSONModel";
 import { loadReference } from "./model/store";
 
 /**
- * @namespace oneflux.apiref
+ * @namespace id.apnv.apps.apidocxgen
  */
 export default class Component extends UIComponent {
 	public static metadata = {

@@ -1,10 +1,10 @@
 specVersion: "3.0"
 metadata:
-  name: oneflux.apiref
+  name: id.apnv.apps.apidocxgen
 type: application
 framework:
   name: OpenUI5
-  version: "1.120.0"
+  version: "1.148.0"
   libraries:
     - name: sap.m
     - name: sap.ui.core
@@ -22,6 +22,12 @@ builder:
         removeConsoleStatements: false
 server:
   customMiddleware:
+    - name: fiori-tools-appreload
+      afterMiddleware: compression
+      configuration:
+        port: 35729
+        path: webapp
+        delay: 300
     - name: ui5-tooling-transpile-middleware
       afterMiddleware: compression
       configuration:

@@ -17,7 +17,6 @@ export interface ApiEndpoint {
 	params: ApiParam[];
 	requestBody: string; // JSON example (free text)
 	responseStatus: string; // e.g. "200 OK"
-	responseNote: string; // e.g. "132 ms · 364 B"
 	responseBody: string; // JSON example (free text)
 	/** When true, the section is rendered as "documentation pending". */
 	placeholder?: boolean;

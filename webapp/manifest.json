@@ -1,7 +1,7 @@
 {
   "_version": "1.60.0",
   "sap.app": {
-    "id": "oneflux.apiref",
+    "id": "id.apnv.apps.apidocxgen",
     "type": "application",
     "i18n": "i18n/i18n.properties",
     "title": "API Reference Builder",
@@ -14,13 +14,13 @@
   },
   "sap.ui5": {
     "rootView": {
-      "viewName": "oneflux.apiref.view.App",
+      "viewName": "id.apnv.apps.apidocxgen.view.App",
       "type": "XML",
       "id": "app",
       "async": true
     },
     "dependencies": {
-      "minUI5Version": "1.120.0",
+      "minUI5Version": "1.148.0",
       "libs": {
         "sap.ui.core": {},
         "sap.m": {},

@@ -1,7 +1,7 @@
 import { ApiReference } from "./types";
-import { seedReference } from "./seedData";
+import { seedEmpty } from "./seedData";
 
-const STORAGE_KEY = "oneflux.apiref.document.v1";
+const STORAGE_KEY = "id.apnv.apps.apidocxgen.document.v1";
 
 function clone<T>(value: T): T {
 	return JSON.parse(JSON.stringify(value)) as T;
@@ -20,7 +20,7 @@ export function loadReference(): ApiReference {
 	} catch (e) {
 		// Ignore corrupt storage and fall back to the seed.
 	}
-	return clone(seedReference);
+	return clone(seedEmpty);
 }
 
 /** Persist the current document to localStorage. */
@@ -39,5 +39,5 @@ export function resetReference(): ApiReference {
 	} catch (e) {
 		// non-fatal
 	}
-	return clone(seedReference);
+	return clone(seedEmpty);
 }

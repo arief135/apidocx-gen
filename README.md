@@ -1,7 +1,7 @@
 # API Reference Builder (OpenUI5 + TypeScript)
 
 A browser-only app for authoring and exporting API-reference documents. It boots
-pre-loaded with the **OneFlux** reference (the seven REST Adapter endpoints), lets
+pre-loaded with the **Sample** reference (seven REST Adapter endpoints), lets
 you edit/add/remove endpoints and parameters through forms, renders a styled
 preview that mirrors the source Word document, and exports a matching **`.docx`**.
 
@@ -19,7 +19,7 @@ GitHub Pages.
 - **Export / Import JSON** — save or share a reference definition.
 - **Print** — print stylesheet hides the chrome and prints the document only.
 - Auto-saves to `localStorage`, so edits survive a refresh. **Reset** restores
-  the original OneFlux content.
+  the original Sample content.
 
 ## Tech
 
@@ -105,7 +105,7 @@ webapp/
     App.controller.ts     navigation, rendering, editing, exports
   model/
     types.ts              ApiReference / ApiEndpoint / ApiParam
-    seedData.ts           the OneFlux content
+    seedData.ts           the Sample content
     store.ts              localStorage load/save/reset
   util/
     PreviewBuilder.ts     builds the styled preview HTML

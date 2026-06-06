@@ -1,0 +1,419 @@
+{
+  "productName": "SAP PI/PO Integration",
+  "subtitle": "API Reference",
+  "environment": "REST Adapter Services — DEV Environment",
+  "changeRequest": "CR_SMS25121033",
+  "version": "Version 1.0",
+  "baseUrl": "http://dmtpodev.mitratel.co.id:51100/RESTAdapter/OneFlux",
+  "overview": "This document describes the REST API services exposed through the SAP Process Orchestration integration layer (REST Adapter). Each service accepts a JSON request body over HTTP POST and returns a JSON response. The examples below were validated in the development environment and reflect the actual request payloads and responses observed during testing.",
+  "conventions": [
+    "Request and response bodies are JSON. Set Content-Type: application/json on every request.",
+    "All requests use the POST method.",
+    "Dates are formatted as YYYYMMDD strings (e.g. 20240304 = 4 March 2024).",
+    "A successful call returns HTTP 200 OK. Business status is conveyed in the response body (e.g. status / message_type)."
+  ],
+  "endpoints": [
+    {
+      "id": "notif-status",
+      "title": "Notif Status",
+      "description": "Retrieves the notification (task) status for a given project. Returns a list of status records tied to the project, including the related billing document, notification number and the current task status text.",
+      "method": "POST",
+      "path": "/NotifStatus",
+      "params": [
+        {
+          "field": "project_id",
+          "type": "string",
+          "required": true,
+          "description": "Project identifier to query."
+        },
+        {
+          "field": "sales_doc",
+          "type": "string",
+          "required": false,
+          "description": "Sales document number. Leave empty to return all matching records."
+        }
+      ],
+      "requestBody": "{\n    \"project_id\": \"21XL04B0773\",\n    \"sales_doc\": \"\"\n}",
+      "responseStatus": "200 OK",
+      "responseBody": "{\n    \"t_status\": [\n        {\n            \"zz_project\": \"21XL04B0773\",\n            \"vbeln\": \"1100000172\",\n            \"posnr\": \"000010\",\n            \"qmnum\": \"003000000104\",\n            \"stat\": \"I0156\",\n            \"txt04\": \"TSCO\",\n            \"txt30\": \"Task Completed\"\n        }\n    ]\n}"
+    },
+    {
+      "id": "create-contract",
+      "title": "Create Contract",
+      "description": "Creates one or more rental contracts. The request supplies an array of input rows under i_input — typically one row per settlement (billing) period of the contract. The response returns one output record per processed row, each carrying the generated contract/document numbers and a processing message.",
+      "method": "POST",
+      "path": "/CreateContract",
+      "params": [
+        {
+          "field": "i_input",
+          "type": "array",
+          "required": true,
+          "description": "Array of contract input rows (one per settlement period)."
+        },
+        {
+          "field": "projectid",
+          "type": "string",
+          "required": true,
+          "description": "Project identifier."
+        },
+        {
+          "field": "contrtype",
+          "type": "string",
+          "required": true,
+          "description": "Contract type (e.g. ZMC1)."
+        },
+        {
+          "field": "sitename",
+          "type": "string",
+          "required": true,
+          "description": "Site name."
+        },
+        {
+          "field": "siteid",
+          "type": "string",
+          "required": true,
+          "description": "Site identifier."
+        },
+        {
+          "field": "contrstart",
+          "type": "string",
+          "required": true,
+          "description": "Contract start date (YYYYMMDD)."
+        },
+        {
+          "field": "contrend",
+          "type": "string",
+          "required": true,
+          "description": "Contract end date (YYYYMMDD)."
+        },
+        {
+          "field": "tipesewa",
+          "type": "string",
+          "required": true,
+          "description": "Rental type code (e.g. Z2)."
+        },
+        {
+          "field": "settlstart",
+          "type": "string",
+          "required": true,
+          "description": "Settlement period start (YYYYMMDD)."
+        },
+        {
+          "field": "settlend",
+          "type": "string",
+          "required": true,
+          "description": "Settlement period end (YYYYMMDD)."
+        },
+        {
+          "field": "billdate",
+          "type": "string",
+          "required": true,
+          "description": "Billing date for the period (YYYYMMDD)."
+        },
+        {
+          "field": "hargasewa",
+          "type": "string",
+          "required": true,
+          "description": "Rental price for the period."
+        },
+        {
+          "field": "remarks",
+          "type": "string",
+          "required": false,
+          "description": "Free-text remarks."
+        },
+        {
+          "field": "pospk_date",
+          "type": "string",
+          "required": true,
+          "description": "PO / SPK date (YYYYMMDD)."
+        }
+      ],
+      "requestBody": "{\n    \"i_input\": [\n        {\n            \"projectid\": \"25TS09J995\",\n            \"contrtype\": \"ZMC1\",\n            \"sitename\": \"Simpang Kiri\",\n            \"siteid\": \"site id\",\n            \"contrstart\": \"20240304\",\n            \"contrend\": \"20360303\",\n            \"tipesewa\": \"Z2\",\n            \"settlstart\": \"20240304\",\n            \"settlend\": \"20250303\",\n            \"billdate\": \"20240304\",\n            \"hargasewa\": \"12000000\",\n            \"remarks\": \"PO PO\",\n            \"pospk_date\": \"20240304\"\n        }\n        // ... one additional object per settlement period\n    ]\n}",
+      "responseStatus": "200 OK",
+      "responseBody": "{\n    \"output\": [\n        {\n            \"projectid\": \"25TS09J995\",\n            \"contrno\": 2100,\n            \"contrit\": \"000010\",\n            \"vbeln\": 1100000923,\n            \"posnr\": \"000010\",\n            \"contrtype\": \"ZMC1\",\n            \"message\": \"SALES_HEADER_IN has been processed successfully\",\n            \"message_type\": \"S\"\n        }\n        // ... one output object per input row\n    ]\n}"
+    },
+    {
+      "id": "billing-due-list",
+      "title": "Billing Due List",
+      "description": "Returns the list of billing documents due within a date range. Each record contains the sales-organisation, customer and document details used to drive collective billing. This service is normally called before Create Collective Billing to obtain the candidate document numbers (vbeln).",
+      "method": "POST",
+      "path": "/BillingDueList",
+      "params": [
+        {
+          "field": "date_from",
+          "type": "string",
+          "required": true,
+          "description": "Range start date (YYYYMMDD)."
+        },
+        {
+          "field": "date_to",
+          "type": "string",
+          "required": true,
+          "description": "Range end date (YYYYMMDD)."
+        }
+      ],
+      "requestBody": "{\n    \"date_from\": \"20250101\",\n    \"date_to\": \"20251231\"\n}",
+      "responseStatus": "200 OK",
+      "responseBody": "{\n    \"data\": [\n        {\n            \"mandt\": 110,\n            \"fktyp\": \"A\",\n            \"vkorg\": \"1005\",\n            \"fkdat\": \"20250101\",\n            \"kunnr\": \"0006020001\",\n            \"fkart\": \"ZMI1\",\n            \"lland\": \"ID\",\n            \"vbeln\": \"2100000295\",\n            \"vtweg\": \"M1\",\n            \"spart\": \"TL\",\n            \"vbtyp\": \"G\",\n            \"adrnr\": \"0000023763\",\n            \"name1\": \"PT BAKRIE TELECOM, TBK\",\n            \"ort01\": \"Jakarta\",\n            \"netwr\": 1320000\n            // ... additional fields\n        }\n    ]\n}"
+    },
+    {
+      "id": "collective-billing",
+      "title": "Create Collective Billing",
+      "description": "Generates collective billing documents for the supplied list of source documents. The data array lists the billing/sales documents (vbeln) to be processed for the given billing date and period. The response confirms which documents were posted and returns the resulting document numbers.",
+      "method": "POST",
+      "path": "/CollectiveBilling",
+      "params": [
+        {
+          "field": "bill_date",
+          "type": "string",
+          "required": true,
+          "description": "Billing date to post (YYYYMMDD)."
+        },
+        {
+          "field": "date_from",
+          "type": "string",
+          "required": true,
+          "description": "Period start date (YYYYMMDD)."
+        },
+        {
+          "field": "date_to",
+          "type": "string",
+          "required": true,
+          "description": "Period end date (YYYYMMDD)."
+        },
+        {
+          "field": "data",
+          "type": "array",
+          "required": true,
+          "description": "Array of source documents to bill."
+        },
+        {
+          "field": "vbeln",
+          "type": "string",
+          "required": true,
+          "description": "Billing / sales document number (within data)."
+        }
+      ],
+      "requestBody": "{\n    \"bill_date\": \"20260304\",\n    \"date_from\": \"20260304\",\n    \"date_to\": \"20270303\",\n    \"data\": [\n        { \"vbeln\": \"2100000414\" },\n        { \"vbeln\": \"2100000415\" },\n        { \"vbeln\": \"2200000009\" }\n    ]\n}",
+      "responseStatus": "200 OK",
+      "responseBody": "{\n    \"status\": \"Success\",\n    \"message\": \"#Document 6100000970 has been saved.#Document 6200000092 has been saved.\",\n    \"data\": [\n        {\n            \"vbeln\": \"6100000970\",\n            \"belnr\": \"0090000044\"\n        },\n        {\n            \"vbeln\": \"6200000092\",\n            \"belnr\": \"0090000045\"\n        }\n    ]\n}"
+    },
+    {
+      "id": "create-memo",
+      "title": "Create Memo",
+      "description": "Posts an accounting memo (financial document) with one or more line items. The header carries company code, document type, posting period and currency information; each entry in the item array represents a posting line (debit/credit). On success the service returns the generated accounting document number and fiscal year.",
+      "method": "POST",
+      "path": "/CreateMemo",
+      "params": [
+        {
+          "field": "uname",
+          "type": "string",
+          "required": true,
+          "description": "User name posting the document."
+        },
+        {
+          "field": "bukrs",
+          "type": "string",
+          "required": true,
+          "description": "Company code."
+        },
+        {
+          "field": "blart",
+          "type": "string",
+          "required": true,
+          "description": "Document type (e.g. DZ)."
+        },
+        {
+          "field": "monat",
+          "type": "string",
+          "required": true,
+          "description": "Posting period (month)."
+        },
+        {
+          "field": "waers",
+          "type": "string",
+          "required": true,
+          "description": "Document currency."
+        },
+        {
+          "field": "waers2",
+          "type": "string",
+          "required": false,
+          "description": "Second / local currency."
+        },
+        {
+          "field": "xblnr",
+          "type": "string",
+          "required": false,
+          "description": "Reference document number."
+        },
+        {
+          "field": "bktxt",
+          "type": "string",
+          "required": false,
+          "description": "Document header text."
+        },
+        {
+          "field": "bldat",
+          "type": "string",
+          "required": true,
+          "description": "Document date (YYYYMMDD)."
+        },
+        {
+          "field": "budat",
+          "type": "string",
+          "required": true,
+          "description": "Posting date (YYYYMMDD)."
+        },
+        {
+          "field": "item",
+          "type": "array",
+          "required": true,
+          "description": "Array of posting line items."
+        },
+        {
+          "field": "buzei",
+          "type": "string",
+          "required": true,
+          "description": "Line item number."
+        },
+        {
+          "field": "bschl",
+          "type": "string",
+          "required": true,
+          "description": "Posting key (e.g. 40, 15)."
+        },
+        {
+          "field": "hkont",
+          "type": "string",
+          "required": true,
+          "description": "G/L or customer account."
+        },
+        {
+          "field": "gsber",
+          "type": "string",
+          "required": false,
+          "description": "Business area."
+        },
+        {
+          "field": "prctr",
+          "type": "string",
+          "required": false,
+          "description": "Profit center."
+        },
+        {
+          "field": "zuonr",
+          "type": "string",
+          "required": false,
+          "description": "Assignment number."
+        },
+        {
+          "field": "sgtxt",
+          "type": "string",
+          "required": false,
+          "description": "Line item text."
+        },
+        {
+          "field": "wrbtr",
+          "type": "string",
+          "required": true,
+          "description": "Amount in document currency."
+        },
+        {
+          "field": "dmbtr",
+          "type": "string",
+          "required": true,
+          "description": "Amount in local currency."
+        },
+        {
+          "field": "shkzg",
+          "type": "string",
+          "required": true,
+          "description": "Debit/Credit indicator (S = debit, H = credit)."
+        },
+        {
+          "field": "koart",
+          "type": "string",
+          "required": true,
+          "description": "Account type (S = G/L, D = customer)."
+        }
+      ],
+      "requestBody": "{\n    \"uname\": \"MITRATEL094\",\n    \"bukrs\": \"1005\",\n    \"blart\": \"DZ\",\n    \"monat\": \"11\",\n    \"waers\": \"IDR\",\n    \"waers2\": \"IDR\",\n    \"xblnr\": \"TSEL\",\n    \"bktxt\": \"PENERIMAAN INVOICE\",\n    \"bldat\": \"20251103\",\n    \"budat\": \"20251103\",\n    \"item\": [\n        {\n            \"buzei\": \"001\",\n            \"bschl\": \"40\",\n            \"hkont\": \"10206024\",\n            \"gsber\": \"6000\",\n            \"prctr\": \"6000A00N4\",\n            \"zuonr\": \"TSEL\",\n            \"sgtxt\": \"PENERIMAAN TSEL\",\n            \"wrbtr\": \"1134432000\",\n            \"dmbtr\": \"1134432000\",\n            \"shkzg\": \"S\",\n            \"koart\": \"S\"\n        }\n        // ... additional posting lines (buzei 002, 003, ...)\n    ]\n}",
+      "responseStatus": "200 OK",
+      "responseBody": "{\n    \"status\": \"Success\",\n    \"message\": \"Document posted successfully: BKPFF 140000001610052025 DMDCLNT110\",\n    \"belnr\": 1400000016,\n    \"gjahr\": 2025\n}"
+    },
+    {
+      "id": "update-billing",
+      "title": "Update Billing",
+      "description": "Updates an existing billing document — specifically its baseline payment date and assignment reference. Returns a simple success status.",
+      "method": "POST",
+      "path": "/UpdateBilling",
+      "params": [
+        {
+          "field": "i_vbeln",
+          "type": "string",
+          "required": true,
+          "description": "Billing document number to update."
+        },
+        {
+          "field": "i_zfbdt",
+          "type": "string",
+          "required": true,
+          "description": "Baseline date for payment (YYYYMMDD)."
+        },
+        {
+          "field": "i_zuonr",
+          "type": "string",
+          "required": true,
+          "description": "Assignment number."
+        }
+      ],
+      "requestBody": "{\n    \"i_vbeln\": \"6300000281\",\n    \"i_zfbdt\": \"20240824\",\n    \"i_zuonr\": \"20240824\"\n}",
+      "responseStatus": "200 OK",
+      "responseBody": "{\n    \"message\": \"Document updated successfully\",\n    \"status\": \"Success\"\n}"
+    },
+    {
+      "id": "get-invoice",
+      "title": "Get Invoice PDF",
+      "description": "Retrieves the invoice document as a Base64-encoded PDF for a given billing document. The bank indicator selects the bank account printed on the invoice. The response returns the encoded file content along with a processing status.",
+      "method": "POST",
+      "path": "/GetInvoice",
+      "params": [
+        {
+          "field": "i_vbeln",
+          "type": "string",
+          "required": true,
+          "description": "Billing document number."
+        },
+        {
+          "field": "i_bank",
+          "type": "string",
+          "required": true,
+          "description": "Bank indicator selecting the printed bank account."
+        },
+        {
+          "field": "i_signature",
+          "type": "string",
+          "required": false,
+          "description": "Signature flag. Leave empty if not required."
+        }
+      ],
+      "requestBody": "{\n    \"i_vbeln\": \"6100000002\",\n    \"i_bank\": \"2\",\n    \"i_signature\": \"\"\n}",
+      "responseStatus": "200 OK",
+      "responseBody": "{\n    \"output\": [\n        {\n            \"vbeln\": \"6100000002\",\n            \"bank\": 2,\n            \"message\": \"Success\",\n            \"message_type\": \"S\",\n            \"file_name\": \"255044462D312E33...0D0A2552...\",   // hex\n            \"file_base64\": \"JVBERi0xLjMNCiX48/...\"            // Base64 PDF\n        }\n    ]\n}"
+    },
+    {
+      "id": "report-contract",
+      "title": "Report Contract",
+      "description": "This service was listed in the source test plan but no endpoint, request payload or response was defined at the time of writing. Documentation will be completed once the service specification is finalised.",
+      "method": "POST",
+      "path": "",
+      "params": [],
+      "requestBody": "",
+      "responseStatus": "",
+      "responseBody": "",
+      "placeholder": true
+    }
+  ]
+}

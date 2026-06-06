@@ -31,9 +31,6 @@
 					<Label text="Response Status" />
 					<Input value="{responseStatus}" placeholder="200 OK" />
 
-					<Label text="Response Note" />
-					<Input value="{responseNote}" placeholder="132 ms · 364 B" />
-
 					<Label text="Response Body" />
 					<TextArea value="{responseBody}" rows="8" width="100%" class="afxMono" wrapping="Off" />
 

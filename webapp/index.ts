@@ -4,7 +4,7 @@ import ComponentContainer from "sap/ui/core/ComponentContainer";
 // Creates the component container and places it in the page body.
 new ComponentContainer({
 	id: "container",
-	name: "oneflux.apiref",
+	name: "id.apnv.apps.apidocxgen",
 	settings: { id: "apiref" },
 	async: true,
 	manifest: true,

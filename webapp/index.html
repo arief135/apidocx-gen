@@ -7,18 +7,20 @@
 
     <!-- docx (UMD) provides a global `docx` used by the DOCX exporter -->
     <script src="https://unpkg.com/docx@8.5.0/build/index.umd.js"></script>
+    <!-- html2pdf.js (UMD) provides a global `html2pdf` used by the PDF exporter -->
+    <!-- <script src="https://unpkg.com/html2pdf.js@0.10.1/dist/html2pdf.bundle.min.js"></script> -->
 
     <!-- OpenUI5 runtime from the official CDN (pinned).
          Bump this version together with @openui5/types in package.json. -->
     <script
       id="sap-ui-bootstrap"
-      src="https://sdk.openui5.org/1.120.0/resources/sap-ui-core.js"
+      src="https://sdk.openui5.org/1.148.0/resources/sap-ui-core.js"
       data-sap-ui-theme="sap_horizon"
       data-sap-ui-libs="sap.m,sap.ui.core,sap.tnt,sap.ui.layout"
       data-sap-ui-compat-version="edge"
       data-sap-ui-async="true"
-      data-sap-ui-resource-roots='{ "oneflux.apiref": "./" }'
-      data-sap-ui-on-init="module:oneflux/apiref/index"
+      data-sap-ui-resource-roots='{ "id.apnv.apps.apidocxgen": "./" }'
+      data-sap-ui-on-init="module:id/apnv/apps/apidocxgen/index"
     ></script>
   </head>
   <body class="sapUiBody" id="content"></body>

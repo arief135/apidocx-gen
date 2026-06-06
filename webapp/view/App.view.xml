@@ -1,5 +1,5 @@
 <mvc:View
-	controllerName="oneflux.apiref.controller.App"
+	controllerName="id.apnv.apps.apidocxgen.controller.App"
 	xmlns:mvc="sap.ui.core.mvc"
 	xmlns="sap.m"
 	xmlns:tnt="sap.tnt"

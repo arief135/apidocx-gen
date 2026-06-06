@@ -3,6 +3,7 @@
     "target": "ES2022",
     "module": "ESNext",
     "moduleResolution": "node",
+    "ignoreDeprecations": "6.0",
     "skipLibCheck": true,
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
@@ -12,7 +13,7 @@
     "rootDir": "webapp",
     "baseUrl": "./",
     "paths": {
-      "oneflux/apiref/*": ["webapp/*"]
+      "id.apnv.apps.apidocxgen/*": ["webapp/*"]
     },
     "lib": ["ES2022", "DOM"],
     "types": ["@openui5/types"],
