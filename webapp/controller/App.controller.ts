@@ -214,6 +214,80 @@ export default class App extends Controller {
         this._persist();
     }
 
+    public onImportXsd(): void {
+        const ctx = this._endpointDialog?.getBindingContext();
+        if (!ctx) {
+            return;
+        }
+        const input = document.createElement("input");
+        input.type = "file";
+        input.accept = ".xsd,.xml";
+        input.addEventListener("change", () => {
+            const file = input.files && input.files[0];
+            if (!file) {
+                return;
+            }
+            const reader = new FileReader();
+            reader.onload = () => {
+                try {
+                    const text = String(reader.result);
+                    const doc = new DOMParser().parseFromString(text, "application/xml");
+                    const parseError = doc.getElementsByTagName("parsererror")[0];
+                    if (parseError) {
+                        MessageBox.error("Failed to parse XSD file:\n\n" + (parseError.textContent ?? "Unknown parse error."));
+                        return;
+                    }
+                    const NS = "http://www.w3.org/2001/XMLSchema";
+                    const schemaEl = doc.getElementsByTagNameNS(NS, "schema")[0];
+                    const allElements = Array.from(doc.getElementsByTagNameNS(NS, "element"));
+                    // Skip direct children of xs:schema (root type declarations, not params)
+                    const paramElements = allElements.filter((el) => el.parentElement !== schemaEl);
+                    if (paramElements.length === 0) {
+                        MessageBox.error("No xs:element descendants found in the XSD file.");
+                        return;
+                    }
+                    const params = paramElements.map((el) => {
+                        // Strip namespace prefix from type attribute (e.g. xs:string → string)
+                        const rawType = el.getAttribute("type") ?? "";
+                        const type = rawType.includes(":") ? rawType.split(":").pop()! : (rawType || "string");
+                        // minOccurs absent defaults to "1" (required); "0" means optional
+                        const minOccurs = el.getAttribute("minOccurs");
+                        const required = minOccurs === null || minOccurs !== "0";
+                        // Extract xs:annotation/xs:documentation text if present
+                        let description = "";
+                        const annotationEl = Array.from(el.childNodes).find(
+                            (n): n is Element => (n as Element).localName === "annotation"
+                        ) as Element | undefined;
+                        if (annotationEl) {
+                            const docEl = Array.from(annotationEl.childNodes).find(
+                                (n): n is Element => (n as Element).localName === "documentation"
+                            ) as Element | undefined;
+                            if (docEl) {
+                                description = (docEl.textContent ?? "").trim();
+                            }
+                        }
+                        return {
+                            field: el.getAttribute("name") ?? "",
+                            type,
+                            required,
+                            description
+                        };
+                    });
+                    const ep = ctx.getObject() as ApiEndpoint;
+                    ep.params = params;
+                    this._data().refresh(true);
+                    this._render();
+                    this._persist();
+                    MessageToast.show("Imported " + params.length + " parameter(s) from XSD.");
+                } catch (e) {
+                    MessageBox.error("Import failed: " + String(e));
+                }
+            };
+            reader.readAsText(file);
+        });
+        input.click();
+    }
+
     public onDeleteParam(oEvent: UI5Event): void {
         const src = oEvent.getSource() as unknown as ManagedObject;
         const ctx = src.getBindingContext();

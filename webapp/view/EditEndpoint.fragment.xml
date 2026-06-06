@@ -44,6 +44,7 @@
 					<OverflowToolbar>
 						<Title text="Request Parameters" level="H4" />
 						<ToolbarSpacer />
+						<Button text="Import from XSD" icon="sap-icon://upload" press=".onImportXsd" />
 						<Button text="Add Parameter" icon="sap-icon://add" press=".onAddParam" />
 					</OverflowToolbar>
 				</headerToolbar>
